@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Core;
 using Rock288.API.Data;
 using Rock288.API.Models.Domain;
 using Rock288.API.Models.DTO;
+using Rock288.API.Repositories;
 
 namespace MyApp.Namespace
 {
@@ -11,16 +13,18 @@ namespace MyApp.Namespace
     public class CategoryController : ControllerBase
     {
         private readonly AppDbContext dbContext;
+        private readonly ICategoryRepository categoryRepository;
 
-        public CategoryController(AppDbContext dbContext)
+        public CategoryController(AppDbContext dbContext, ICategoryRepository categoryRepository)
         {
             this.dbContext = dbContext;
+            this.categoryRepository = categoryRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var categoriesDomain = await dbContext.Categories.ToListAsync();
+            var categoriesDomain = await categoryRepository.GetAllAsync();
             var categoriesDto = new List<CategoryDto>();
             foreach (var categoryDomain in categoriesDomain)
             {
@@ -28,7 +32,6 @@ namespace MyApp.Namespace
                 {
                     CategoryId = categoryDomain.CategoryId,
                     Name = categoryDomain.Name,
-                    Articles = categoryDomain.Articles,
                 });
             }
             return Ok(categoriesDto);
@@ -38,7 +41,7 @@ namespace MyApp.Namespace
         [Route("{categoryId}")]
         public async Task<IActionResult> GetById([FromRoute] int categoryId)
         {
-            var categoryDomain = await dbContext.Categories.FirstOrDefaultAsync(o => o.CategoryId == categoryId);
+            var categoryDomain = await categoryRepository.GetByIdAsync(categoryId);
             if (categoryDomain == null)
             {
                 return NotFound();
@@ -47,10 +50,8 @@ namespace MyApp.Namespace
             {
                 CategoryId = categoryDomain.CategoryId,
                 Name = categoryDomain.Name,
-                Articles = categoryDomain.Articles,
-                
             };
-            return Ok(categoryDomain);
+            return Ok(categoryDto);
         }
 
         [HttpPost]
@@ -60,28 +61,32 @@ namespace MyApp.Namespace
             {
                 Name = addCategoryDto.Name,
             };
-            await dbContext.Categories.AddAsync(categoriesDomainModel);
-            await dbContext.SaveChangesAsync();
+            categoriesDomainModel = await categoryRepository.CreateAsync(categoriesDomainModel);
 
             var categoriesDto = new CategoryDto
             {
+                CategoryId = categoriesDomainModel.CategoryId,
                 Name = categoriesDomainModel.Name,
             };
+
             
-            return CreatedAtAction(nameof(GetById), new { CategoryId = categoriesDto.CategoryId }, categoriesDto);
+            return Ok(categoriesDto);
         }
 
         [HttpPut]
         [Route("{categoryId}")]
         public async Task<IActionResult> Update([FromRoute] int categoryId, [FromBody] UpdateCategoryDto updateCategoryDto)
         {
-            var categoryDomainModel = await dbContext.Categories.FirstOrDefaultAsync(o => o.CategoryId == categoryId);
+            var categoryDomainModel = new Category
+            {
+                Name = updateCategoryDto.Name
+            };
+            categoryDomainModel = await categoryRepository.UpdateAsync(categoryId,  categoryDomainModel);
+
             if (categoryDomainModel == null)
             {
                 return NotFound();
             }
-            categoryDomainModel.Name = updateCategoryDto.Name;
-            await dbContext.SaveChangesAsync();
 
             var categoryDto = new CategoryDto
             {
@@ -96,15 +101,11 @@ namespace MyApp.Namespace
         [Route("{categoryId}")]
         public async Task<IActionResult> Delete([FromRoute] int categoryId)
         {
-            var categoryDomainModel = await dbContext.Categories.FirstOrDefaultAsync(o => o.CategoryId == categoryId);
+            var categoryDomainModel = await categoryRepository.DeleteAsync(categoryId);
             if (categoryDomainModel == null)
             {
                 return NotFound();
             }
-            // Delete
-            dbContext.Categories.Remove(categoryDomainModel);
-            await dbContext.SaveChangesAsync();
-
             return Ok();
         }
     }

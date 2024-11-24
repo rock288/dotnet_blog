@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Rock288.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d2f9c712b4975e8850382622496ea28f17c78faf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0bf11c2a9bbf81424c3b84fcba82b70b1c887dc7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Rock288.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Rock288.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
