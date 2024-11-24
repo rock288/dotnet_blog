@@ -69,5 +69,42 @@ namespace MyApp.Namespace
             
             return CreatedAtAction(nameof(GetById), new { CategoryId = categoriesDto.CategoryId }, categoriesDto);
         }
+
+        [HttpPut]
+        [Route("{categoryId}")]
+        public IActionResult Update([FromRoute] int categoryId, [FromBody] UpdateCategoryDto updateCategoryDto)
+        {
+            var categoryDomainModel = dbContext.Categories.FirstOrDefault(o => o.CategoryId == categoryId);
+            if (categoryDomainModel == null)
+            {
+                return NotFound();
+            }
+            categoryDomainModel.Name = updateCategoryDto.Name;
+            dbContext.SaveChanges();
+
+            var categoryDto = new CategoryDto
+            {
+                CategoryId = categoryDomainModel.CategoryId,
+                Name = categoryDomainModel.Name,
+            };
+
+            return Ok(categoryDto);
+        }
+
+        [HttpDelete]
+        [Route("{categoryId}")]
+        public IActionResult Delete([FromRoute] int categoryId)
+        {
+            var categoryDomainModel = dbContext.Categories.FirstOrDefault(o => o.CategoryId == categoryId);
+            if (categoryDomainModel == null)
+            {
+                return NotFound();
+            }
+            // Delete
+            dbContext.Categories.Remove(categoryDomainModel);
+            dbContext.SaveChanges();
+
+            return Ok();
+        }
     }
 }

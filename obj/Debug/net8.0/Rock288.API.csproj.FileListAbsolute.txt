@@ -275,3 +275,4 @@
 /Users/tuannguyen/Git/example/Rock288.API/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Scripting.resources.dll
 /Users/tuannguyen/Git/example/Rock288.API/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Scripting.resources.dll
 /Users/tuannguyen/Git/example/Rock288.API/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Scripting.resources.dll
+/Users/tuannguyen/Git/example/Rock288.API/obj/Debug/net8.0/Rock288.API.sourcelink.json
