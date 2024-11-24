@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Rock288.API.Data;
 using Rock288.API.Models.Domain;
 using Rock288.API.Models.DTO;
@@ -17,9 +18,9 @@ namespace MyApp.Namespace
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var categoriesDomain = dbContext.Categories.ToList();
+            var categoriesDomain = await dbContext.Categories.ToListAsync();
             var categoriesDto = new List<CategoryDto>();
             foreach (var categoryDomain in categoriesDomain)
             {
@@ -35,9 +36,9 @@ namespace MyApp.Namespace
 
         [HttpGet]
         [Route("{categoryId}")]
-        public IActionResult GetById([FromRoute] int categoryId)
+        public async Task<IActionResult> GetById([FromRoute] int categoryId)
         {
-            var categoryDomain = dbContext.Categories.FirstOrDefault(o => o.CategoryId == categoryId);
+            var categoryDomain = await dbContext.Categories.FirstOrDefaultAsync(o => o.CategoryId == categoryId);
             if (categoryDomain == null)
             {
                 return NotFound();
@@ -53,14 +54,14 @@ namespace MyApp.Namespace
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] AddCategoryDto addCategoryDto)
+        public async Task<IActionResult> Create([FromBody] AddCategoryDto addCategoryDto)
         {
             var categoriesDomainModel = new Category
             {
                 Name = addCategoryDto.Name,
             };
-            var categoryDomain = dbContext.Categories.Add(categoriesDomainModel);
-            dbContext.SaveChanges();
+            await dbContext.Categories.AddAsync(categoriesDomainModel);
+            await dbContext.SaveChangesAsync();
 
             var categoriesDto = new CategoryDto
             {
@@ -72,15 +73,15 @@ namespace MyApp.Namespace
 
         [HttpPut]
         [Route("{categoryId}")]
-        public IActionResult Update([FromRoute] int categoryId, [FromBody] UpdateCategoryDto updateCategoryDto)
+        public async Task<IActionResult> Update([FromRoute] int categoryId, [FromBody] UpdateCategoryDto updateCategoryDto)
         {
-            var categoryDomainModel = dbContext.Categories.FirstOrDefault(o => o.CategoryId == categoryId);
+            var categoryDomainModel = await dbContext.Categories.FirstOrDefaultAsync(o => o.CategoryId == categoryId);
             if (categoryDomainModel == null)
             {
                 return NotFound();
             }
             categoryDomainModel.Name = updateCategoryDto.Name;
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             var categoryDto = new CategoryDto
             {
@@ -93,16 +94,16 @@ namespace MyApp.Namespace
 
         [HttpDelete]
         [Route("{categoryId}")]
-        public IActionResult Delete([FromRoute] int categoryId)
+        public async Task<IActionResult> Delete([FromRoute] int categoryId)
         {
-            var categoryDomainModel = dbContext.Categories.FirstOrDefault(o => o.CategoryId == categoryId);
+            var categoryDomainModel = await dbContext.Categories.FirstOrDefaultAsync(o => o.CategoryId == categoryId);
             if (categoryDomainModel == null)
             {
                 return NotFound();
             }
             // Delete
             dbContext.Categories.Remove(categoryDomainModel);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             return Ok();
         }
