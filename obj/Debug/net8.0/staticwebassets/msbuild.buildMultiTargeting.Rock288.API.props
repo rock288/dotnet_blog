@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/Rock288.API.props" />
+</Project>
