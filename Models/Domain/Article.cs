@@ -18,7 +18,7 @@ public class Article
     public required int CategoryId { get; set; }
 
     // Navigation property: Link to the related category
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime CreatedAt { get; set; } // Auto-generated timestamp for creation

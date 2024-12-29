@@ -20,7 +20,7 @@ namespace Rock288.API.Repositories
 
         public async Task<List<Article>> GetAllAsync()
         {
-            return await dbContext.Articles.ToListAsync();
+            return await dbContext.Articles.Include(x => x.Category).ToListAsync();
         }
 
         public async Task<Article?> GetByIdAsync(int ArticleId)

@@ -14,7 +14,7 @@ namespace Rock288.API.Models.Domain
     public required string Name { get; set; }
 
     // Navigation property: A category can have many articles
-    public ICollection<Article> Articles { get; set; } = new List<Article>();
+    // public ICollection<Article> Articles { get; set; } = new List<Article>();
 
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime CreatedAt { get; set; } // Auto-generated timestamp for creation

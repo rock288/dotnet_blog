@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Rock288.API.Models.Domain;
 
 namespace Rock288.API.Models.DTO 
@@ -18,9 +17,6 @@ namespace Rock288.API.Models.DTO
         public required int CategoryId { get; set; }
 
         // Navigation property: Link to the related category
-        public required Category Category { get; set; }
-
-        [Timestamp]
-        public byte[] RowVersion { get; set; } // Timestamp property
+        public Category Category { get; set; }
     }
 }

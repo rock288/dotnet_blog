@@ -11,6 +11,8 @@ namespace Rock288.API.Mappings
             var mapperConfig = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Category, CategoryDto>();
+                cfg.CreateMap<Article, ArticleDto>();
+                // cfg.CreateMap<List<Article>, List<ArticleDto>>();
             });
 
             return mapperConfig.CreateMapper();

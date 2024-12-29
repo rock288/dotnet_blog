@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Rock288.API.Models.Domain;
+using Rock288.API.Models.DTO;
 
 namespace Rock288.API.Repositories
 {
