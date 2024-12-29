@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "zPQhYXdn3qs81a8/5TfKEJdZsll39kopaylOLyS9zlNi1Ig6mwRpoRQ7KWDGEgaEaKqClL9vV54ysI3AWHsAhQ==",
+  "dgSpecHash": "aAsNw1lcDOgqPAbEA4NfmVdVq9pT7sLQSNygRdxtti04nsjkJIuDQq7vQJe8PWNaIF1SzhR6917eJsHAeF9Pmw==",
   "success": true,
   "projectFilePath": "/Users/tuannguyen/Git/example/Rock288.API/Rock288.API.csproj",
   "expectedPackageFiles": [
+    "/Users/tuannguyen/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
     "/Users/tuannguyen/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/tuannguyen/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",
     "/Users/tuannguyen/.nuget/packages/humanizer/2.14.1/humanizer.2.14.1.nupkg.sha512",

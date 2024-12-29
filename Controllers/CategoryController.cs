@@ -1,6 +1,5 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Core;
 using Rock288.API.Data;
 using Rock288.API.Models.Domain;
 using Rock288.API.Models.DTO;
@@ -14,26 +13,30 @@ namespace MyApp.Namespace
     {
         private readonly AppDbContext dbContext;
         private readonly ICategoryRepository categoryRepository;
+        private readonly IMapper mapper;
 
-        public CategoryController(AppDbContext dbContext, ICategoryRepository categoryRepository)
+
+        public CategoryController(AppDbContext dbContext, ICategoryRepository categoryRepository, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.categoryRepository = categoryRepository;
+            this.mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var categoriesDomain = await categoryRepository.GetAllAsync();
-            var categoriesDto = new List<CategoryDto>();
-            foreach (var categoryDomain in categoriesDomain)
-            {
-                categoriesDto.Add(new CategoryDto()
-                {
-                    CategoryId = categoryDomain.CategoryId,
-                    Name = categoryDomain.Name,
-                });
-            }
+            // var categoriesDto = new List<CategoryDto>();
+            // foreach (var categoryDomain in categoriesDomain)
+            // {
+            //     categoriesDto.Add(new CategoryDto()
+            //     {
+            //         CategoryId = categoryDomain.CategoryId,
+            //         Name = categoryDomain.Name,
+            //     });
+            // }
+            var categoriesDto = mapper.Map<List<Category>, List<CategoryDto>>(categoriesDomain);
             return Ok(categoriesDto);
         }
 
@@ -68,7 +71,6 @@ namespace MyApp.Namespace
                 CategoryId = categoriesDomainModel.CategoryId,
                 Name = categoriesDomainModel.Name,
             };
-
             
             return Ok(categoriesDto);
         }
