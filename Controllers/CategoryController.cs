@@ -27,15 +27,6 @@ namespace MyApp.Namespace
         public async Task<IActionResult> GetAll()
         {
             var categoriesDomain = await categoryRepository.GetAllAsync();
-            // var categoriesDto = new List<CategoryDto>();
-            // foreach (var categoryDomain in categoriesDomain)
-            // {
-            //     categoriesDto.Add(new CategoryDto()
-            //     {
-            //         CategoryId = categoryDomain.CategoryId,
-            //         Name = categoryDomain.Name,
-            //     });
-            // }
             var categoriesDto = mapper.Map<List<Category>, List<CategoryDto>>(categoriesDomain);
             return Ok(categoriesDto);
         }
@@ -49,12 +40,7 @@ namespace MyApp.Namespace
             {
                 return NotFound();
             }
-            var categoryDto = new CategoryDto()
-            {
-                CategoryId = categoryDomain.CategoryId,
-                Name = categoryDomain.Name,
-            };
-            return Ok(categoryDto);
+            return Ok(mapper.Map<CategoryDto>(categoryDomain));
         }
 
         [HttpPost]
@@ -66,13 +52,7 @@ namespace MyApp.Namespace
             };
             categoriesDomainModel = await categoryRepository.CreateAsync(categoriesDomainModel);
 
-            var categoriesDto = new CategoryDto
-            {
-                CategoryId = categoriesDomainModel.CategoryId,
-                Name = categoriesDomainModel.Name,
-            };
-            
-            return Ok(categoriesDto);
+            return Ok(mapper.Map<CategoryDto>(categoriesDomainModel));
         }
 
         [HttpPut]
@@ -90,13 +70,7 @@ namespace MyApp.Namespace
                 return NotFound();
             }
 
-            var categoryDto = new CategoryDto
-            {
-                CategoryId = categoryDomainModel.CategoryId,
-                Name = categoryDomainModel.Name,
-            };
-
-            return Ok(categoryDto);
+            return Ok(mapper.Map<CategoryDto>(categoryDomainModel));
         }
 
         [HttpDelete]

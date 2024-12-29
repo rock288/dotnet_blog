@@ -9,5 +9,18 @@ namespace Rock288.API.Data
 
         public required DbSet<Category> Categories { get; set; }
         public required DbSet<Article> Articles { get; set; }
+
+        // override protected void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     base.OnModelCreating(modelBuilder);
+
+        //     // seed data for category
+        //     var categories = new List<Category>()
+        //     {
+        //         new Category() { Name = "React",},
+        //         new Category() { Name = "C#",},
+        //         new Category() { Name = "Golang",}
+        //     }; 
+        // }
     }
 }
