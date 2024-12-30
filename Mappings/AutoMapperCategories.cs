@@ -12,7 +12,7 @@ namespace Rock288.API.Mappings
             {
                 cfg.CreateMap<Category, CategoryDto>();
                 cfg.CreateMap<Article, ArticleDto>();
-                // cfg.CreateMap<List<Article>, List<ArticleDto>>();
+                cfg.CreateMap<Article, ArticleListDto>();
             });
 
             return mapperConfig.CreateMapper();

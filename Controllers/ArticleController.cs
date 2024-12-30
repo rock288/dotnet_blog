@@ -24,6 +24,15 @@ namespace MyApp.Namespace
         }
 
         [HttpGet]
+        [Route("category")]
+        public async Task<IActionResult> GetArticleByCategoryAsync([FromQuery] int CategoryId, int pageSize, int pageNumber)
+        {
+            var categoriesDomain = await ArticleRepository.GetArticleByCategoryAsync(CategoryId, pageSize, pageNumber);
+            var categoriesDto = mapper.Map<List<Article>, List<ArticleListDto>>(categoriesDomain);
+            return Ok(categoriesDto);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var categoriesDomain = await ArticleRepository.GetAllAsync();

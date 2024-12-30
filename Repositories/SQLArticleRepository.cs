@@ -23,6 +23,15 @@ namespace Rock288.API.Repositories
             return await dbContext.Articles.Include(x => x.Category).ToListAsync();
         }
 
+        public async Task<List<Article>> GetArticleByCategoryAsync(int CategoryId, int pageSize, int pageNumber)
+        {
+            return await dbContext.Articles
+                .Where(x => x.CategoryId == CategoryId)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
         public async Task<Article?> GetByIdAsync(int ArticleId)
         {
             return await dbContext.Articles.FirstOrDefaultAsync(o => o.ArticleId == ArticleId);
